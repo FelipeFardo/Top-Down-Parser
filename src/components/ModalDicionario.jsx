@@ -84,7 +84,7 @@ const Dictionary = (props) =>{
           </div>
         </div>
         <div className='d-flex flex-column justify-content-center align-items-center mt-4'>
-          <h5>Tabela de Parsing</h5>
+          <h5>Table of Parsing</h5>
           <table className="table table-bordered table-striped">
             <thead className="sticky-top">
               <tr>

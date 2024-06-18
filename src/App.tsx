@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { Button } from "react-bootstrap";
 import { Toaster } from 'react-hot-toast';
+import { IoIosInformationCircle } from "react-icons/io";
 
 import ModalDicionario from './components/ModalDicionario';
 
@@ -18,7 +19,7 @@ function App() {
     <>
       <Toaster />
       <div className="d-flex justify-content-center mt-2">
-        <div className="col-md-11 col-sm-7 col-5">
+        <div className="col-md-11">
           <h3 className="m-2 text-center border-bottom pb-3 ">Top-down Parsing</h3>
           <div className="d-flex justify-content-between my-3">
 
@@ -32,10 +33,9 @@ function App() {
 
             <Button className="btn btn-warning" onClick={nextPass}>Next</Button>
             <Button className="btn btn-success" onClick={iterateNextPass}>Resolver</Button>
-
-            <ModalDicionario show={modalShow} onHide={() => setModalShow(false)} />
             <Button className="btn btn-dark" onClick={() => setModalShow(true)}>Information</Button>
 
+            <ModalDicionario show={modalShow} onHide={() => setModalShow(false)} />
           </div>
           <Table />
         </div>

@@ -4,8 +4,6 @@ import { epsilon, gramatica, terminals } from './gramatic';
 
 const globalProduction = gramatica
 
-
-//Iterar Produção
 function searchProduction(pile, char){
     for (let i in globalProduction) {
         
@@ -14,9 +12,6 @@ function searchProduction(pile, char){
         if(nT.key === pile){
             for (let j in nT.list) {
                 let globalProduction = nT.list[j];
-                // console.log(globalProduction);
-                // console.log(char);
-
 
                 if(globalProduction.nonTerminal === pile && globalProduction.initial.includes(char)){
                     return globalProduction;
@@ -67,11 +62,11 @@ function initSentenceFunc(){
     return sentence;
 }
 
-export function nextPass({ entry, sentence, pile, iteracao, end, resolver }) {
+export function nextPass({ entry, sentence, pile, iteration, end, resolver }) {
     if (sentence.length>0){
          if(end){
             resolver = []
-            iteracao = 0;
+            iteration = 0;
             pile = "$S";
             entry = "";
             end = false;
@@ -86,11 +81,11 @@ export function nextPass({ entry, sentence, pile, iteracao, end, resolver }) {
         let entryTable = entry;
         pile = pile.slice(0, -1);
 
-        iteracao++;
+        iteration++;
 
 
         if(charPile === entry.charAt(0) && charPile === "$"){
-            action = "Aceito em " + iteracao + " iterações";
+            action = "Accept in " + iteration + " iteractions";
             end = true;
         } else if(charPile && charPile === charPile.toUpperCase()){
             let globalProduction = searchProduction(charPile, entry.charAt(0));
@@ -101,22 +96,22 @@ export function nextPass({ entry, sentence, pile, iteracao, end, resolver }) {
                 }
             } else {
                 end = true;
-                action = "Erro em " + iteracao + " iterações!";
+                action = "Error in " + iteration + " iteractions!";
             }
         } else if (charPile && charPile === entry.charAt(0)){
             action = "Lê '" + entry.charAt(0) + "'";
             entry = entry.substr(1);
         } else {
             end = true;
-            action = "Erro em " + iteracao + " iterações!";
+            action = "Error in " + iteration + " iteractions!";
         }
 
 
         resolver.push([pileTable, entryTable, action])
 
-        return { entry, sentence, pile, iteracao, end, resolver, topEntry: entryTable[0] ,action }
+        return { entry, sentence, pile, iteration, end, resolver, topEntry: entryTable[0] ,action }
     }
-    return { entry, sentence, pile, iteracao, end: true, resolver, };
+    return { entry, sentence, pile, iteration, end: true, resolver, };
 }
 
 
@@ -125,7 +120,7 @@ export const useAnalyzer = create((set) => ({
     sentence: '',
     globalProduction:  gramatica,
     terminals,
-    iteracao: 0,
+    iteration: 0,
     pile: '$S',
     entry: "",
     end: false,
@@ -142,7 +137,7 @@ export const useAnalyzer = create((set) => ({
             ...state.state,
             resolver: [],
             sentence: initSentenceValue,
-            iteracao : 0,
+            iteration : 0,
             pile : "$S",
             entry : "",
             end : false,
@@ -168,7 +163,7 @@ export const useAnalyzer = create((set) => ({
             ...state.state,
             resolver: [],
             sentence: sentenceInput,
-            iteracao: 0,
+            iteration: 0,
             pile : "$S",
             entry : "",
             end : false,

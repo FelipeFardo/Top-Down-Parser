@@ -2,18 +2,18 @@ import { useEffect, useRef } from "react";
 import { useAnalyzer } from "../context/useAnalyzer";
 
 const Analyzer = () =>{
-  const { state: { resolver, iteracao } } = useAnalyzer()
+  const { state: { resolver, iteration } } = useAnalyzer()
   const tableRef = useRef(null);
 
   
   useEffect(() => {
     const scrollContainer = document.getElementById('table');
 
-    if (iteracao<=1) document.getElementById('tablecontainer').scrollTo({top: 0,behavior: 'smooth'});
+    if (iteration<=1) document.getElementById('tablecontainer').scrollTo({top: 0,behavior: 'smooth'});
   
-    let linhaDesejada=scrollContainer.rows[iteracao];
+    let linhaDesejada=scrollContainer.rows[iteration];
     linhaDesejada.scrollIntoView({ behavior: 'smooth' });
-  }, [iteracao])
+  }, [iteration])
 
   return (
   <div className="table-wrapper-scroll-y my-custom-scrollbar" id="tablecontainer" style={{height:"65vh",overflow: "auto"}} ref={tableRef}>
@@ -21,10 +21,10 @@ const Analyzer = () =>{
 
     <thead className="sticky-top">
       <tr className="text-center">
-        <th scope="col" >{iteracao}</th>
-        <th scope="col" >Pilha</th>
-        <th scope="col" >Entrada</th>
-        <th scope="col" >Ação</th>
+        <th scope="col" ></th>
+        <th scope="col" >Pile</th>
+        <th scope="col" >Entry</th>
+        <th scope="col" >Action</th>
       </tr>
       </thead>
       <tbody className="text-center">
