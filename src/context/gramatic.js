@@ -6,8 +6,18 @@ export const gramatica = [
     list: [
       {
         nonTerminal: "S",
-        initial: ["a", "c", "d"],
-        production: "ABC"
+        initial: ["a"],
+        production: "aBa"
+      },
+      {
+        nonTerminal: "S",
+        initial: ["b","c"],
+        production: "Ab"
+      },
+      {
+        nonTerminal: "S",
+        initial: ["d"],
+        production: "dA"
       }
     ]
   },
@@ -16,13 +26,13 @@ export const gramatica = [
     list: [
       {
         nonTerminal: "A",
-        initial: ["a"],
-        production: "aAb"
+        initial: ["b"],
+        production: "bA"
       },
       {
         nonTerminal: "A",
-        initial: ["b", "c", "d", "e", "f"],
-        production: epsilon
+        initial: ["c"],
+        production: "c"
       }
     ]
   },
@@ -31,14 +41,24 @@ export const gramatica = [
     list: [
       {
         nonTerminal: "B",
+        initial: ["a"],
+        production: epsilon
+      },
+      {
+        nonTerminal: "B",
+        initial: ["b"],
+        production: "bA"
+      },
+      {
+        nonTerminal: "B",
         initial: ["c"],
-        production: "cBCcA"
+        production: "cC"
       },
       {
         nonTerminal: "B",
         initial: ["d"],
-        production: "d"
-      }
+        production: 'dAa'
+      },
     ]
   },
   {
@@ -46,13 +66,13 @@ export const gramatica = [
     list: [
       {
         nonTerminal: "C",
-        initial: ["e"],
-        production: "eCBe"
+        initial: ["a"],
+        production: "aCA"
       },
       {
         nonTerminal: "C",
-        initial: ["f"],
-        production: "f"
+        initial: ["b"],
+        production: "b"
       }
     ]
   }

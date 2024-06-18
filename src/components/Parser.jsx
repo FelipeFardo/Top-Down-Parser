@@ -1,10 +1,11 @@
 
 import Modal from 'react-bootstrap/Modal';
 import { useAnalyzer } from '../context/useAnalyzer';
+import { Button } from 'react-bootstrap';
 
 
-const Dictionary = (props) =>{
-  const { state: { terminals, topEntry, globalProduction,action } } = useAnalyzer()
+const Information = (props) =>{
+  const { state: { terminals, topEntry, globalProduction,action }, actions: { nextPass } } = useAnalyzer()
 
   let formatedTable = []
   let table = []
@@ -47,8 +48,7 @@ const Dictionary = (props) =>{
   formatTable()
    
   return (
-    <>
-    <Modal
+       <Modal
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
@@ -63,26 +63,27 @@ const Dictionary = (props) =>{
         <div className='d-flex justify-content-around'>
           <div>
             <h5>Grammar</h5>
-            <p className='m-0 p-0'>S := ABC </p>
-            <p className='m-0 p-0'>A := aAb | ε</p>
-            <p className='m-0 p-0'>B := cBCcA | d</p>
-            <p className='m-0 p-0'>C := eCBe | f</p>
+            <p className='m-0 p-0'>S ::= aBa | AB | dA</p>
+            <p className='m-0 p-0'>A ::= bA | c</p>
+            <p className='m-0 p-0'>B ::= bA | cC | dAa | ε</p>
+            <p className='m-0 p-0'>C ::= aCA | b</p>
           </div>
           <div>
             <h5>First</h5>
-            <p className='m-0 p-0'>{"S = {a, c, d}"}</p>
-            <p className='m-0 p-0'>{"A = {a, ε}"}</p>
-            <p className='m-0 p-0'>{"B = {c, d}"}</p>
-            <p className='m-0 p-0'>{"C = {e, f}"}</p>
+            <p className='m-0 p-0'>{"S = {a, b, c, d}"}</p>
+            <p className='m-0 p-0'>{"A = {b, c}"}</p>
+            <p className='m-0 p-0'>{"B = {b, c, d, ε}"}</p>
+            <p className='m-0 p-0'>{"C = {a, b}"}</p>
           </div>
           <div>
             <h5>Follow</h5>
             <p className='m-0 p-0'>{"S = {$}"}</p>
-            <p className='m-0 p-0'>{"A = {b, c, d, e, f}"}</p>
-            <p className='m-0 p-0'>{"B = {e, f}"}</p>
-            <p className='m-0 p-0'>{"C = {$, c, d}"}</p>
+            <p className='m-0 p-0'>{"A = {a, b, c, d, $}"}</p>
+            <p className='m-0 p-0'>{"B = {a, $}"}</p>
+            <p className='m-0 p-0'>{"C = {a, b, c, $}"}</p>
           </div>
         </div>
+
         <div className='d-flex flex-column justify-content-center align-items-center mt-4'>
           <h5>Table of Parsing</h5>
           <table className="table table-bordered table-striped">
@@ -107,7 +108,6 @@ const Dictionary = (props) =>{
                     ?'bg-success':
                       ''
                   }`}
-                  
                   key={nonTerminalIndex}>{nonTerminal}</td>
                   ))}
                 </tr>
@@ -118,8 +118,8 @@ const Dictionary = (props) =>{
         </div>
       </Modal.Body>
     </Modal>
-  </>
+
 )}
 
-export default Dictionary;
+export default Information;
 

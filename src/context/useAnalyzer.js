@@ -51,8 +51,7 @@ function initSentenceFunc(){
         }
         steps++;
 
-        //Passou de 10 e nada ainda, reinicia
-        if(steps >= 10){
+        if(steps >= 15){
             sentence = "S";
             nTerminal = "S";
             steps = 0;
@@ -84,12 +83,13 @@ export function nextPass({ entry, sentence, pile, iteration, end, resolver }) {
         iteration++;
 
 
-        if(charPile === entry.charAt(0) && charPile === "$"){
+        if(charPile === entry[0] && charPile === "$"){
             action = "Accept in " + iteration + " iteractions";
             end = true;
         } else if(charPile && charPile === charPile.toUpperCase()){
-            let globalProduction = searchProduction(charPile, entry.charAt(0));
+            let globalProduction = searchProduction(charPile, entry[0]);
             if(globalProduction) {
+
                 action = globalProduction.nonTerminal + " -> " + globalProduction.production;
                 if(globalProduction.production !== epsilon){
                     pile += globalProduction.production.split('').reverse().join('');
@@ -98,8 +98,8 @@ export function nextPass({ entry, sentence, pile, iteration, end, resolver }) {
                 end = true;
                 action = "Error in " + iteration + " iteractions!";
             }
-        } else if (charPile && charPile === entry.charAt(0)){
-            action = "Lê '" + entry.charAt(0) + "'";
+        } else if (charPile && charPile === entry[0]){
+            action = "Lê '" + entry[0] + "'";
             entry = entry.substr(1);
         } else {
             end = true;
@@ -129,7 +129,7 @@ export const useAnalyzer = create((set) => ({
     topEntry: '',
   },
   actions: {
-    initSentence: () => set((state)=>{
+    initSentenceSuccess: () => set((state)=>{
         const initSentenceValue = initSentenceFunc();
 
         return {
@@ -143,6 +143,23 @@ export const useAnalyzer = create((set) => ({
             end : false,
             action: '',
             topEntry: initSentenceValue[0], 
+        }
+      };
+    }),
+    initSentenceError: () => set((state)=>{
+        const initSentenceValue = initSentenceFunc();
+        const initSentenceError = initSentenceValue + initSentenceValue[initSentenceValue.length-1]
+        return {
+            state: {
+            ...state.state,
+            resolver: [],
+            sentence: initSentenceError,
+            iteration : 0,
+            pile : "$S",
+            entry : "",
+            end : false,
+            action: '',
+            topEntry: initSentenceError[0], 
         }
       };
     }),

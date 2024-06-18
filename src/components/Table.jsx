@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useAnalyzer } from "../context/useAnalyzer";
+import { Button } from "react-bootstrap";
 
 const Analyzer = () =>{
   const { state: { resolver, iteration } } = useAnalyzer()

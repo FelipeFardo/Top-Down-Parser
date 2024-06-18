@@ -3,39 +3,40 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { Button } from "react-bootstrap";
 import { Toaster } from 'react-hot-toast';
-import { IoIosInformationCircle } from "react-icons/io";
 
-import ModalDicionario from './components/ModalDicionario';
+import Parser from './components/Parser';
 
 import Table from './components/Table';
 import { useAnalyzer } from './context/useAnalyzer';
 
 function App() {
   const [modalShow, setModalShow] = useState(false);
-  const { state: { sentence }, actions: { initSentence, nextPass, changeSentence, iterateNextPass } } = useAnalyzer()
+  const { state: { sentence }, actions: { initSentenceSuccess, nextPass, changeSentence, iterateNextPass, initSentenceError } } = useAnalyzer()
 
 
   return (
     <>
       <Toaster />
-      <div className="d-flex justify-content-center mt-2">
+      <div className="d-flex m-auto justify-content-center mt-2" style={{ maxWidth: 1400 }}>
         <div className="col-md-11">
-          <h3 className="m-2 text-center border-bottom pb-3 ">Top-down Parsing</h3>
+          <h3 className="m-2 text-center border-bottom pb-3 ">Tabular Predictive Top-Down Parser
+          </h3>
           <div className="d-flex justify-content-between my-3">
 
             <div className="input-group w-auto gap-3">
               <input value={sentence} onChange={(e) => changeSentence(e.target.value)} type="text" className="form-control" placeholder="Enter the sentence..." />
-              <div className="input-group-append">
-                <Button className="btn btn-dark" type="button" onClick={() => initSentence()}>Generate</Button>
+              <div className="d-flex input-group-append gap-3">
+                <Button className="btn btn-dark" type="button" onClick={() => initSentenceSuccess()}>Generate success</Button>
+                <Button className="btn btn-danger" type="button" onClick={() => initSentenceError()}>Generate error</Button>
               </div>
             </div>
 
 
             <Button className="btn btn-warning" onClick={nextPass}>Next</Button>
             <Button className="btn btn-success" onClick={iterateNextPass}>Resolver</Button>
-            <Button className="btn btn-dark" onClick={() => setModalShow(true)}>Information</Button>
+            <Button className="btn btn-dark" onClick={() => setModalShow(true)}>Table</Button>
 
-            <ModalDicionario show={modalShow} onHide={() => setModalShow(false)} />
+            <Parser show={modalShow} onHide={() => setModalShow(false)} />
           </div>
           <Table />
         </div>
