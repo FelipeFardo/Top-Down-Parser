@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 
 
 const Information = (props) =>{
-  const { state: { terminals, topEntry, globalProduction,action }, actions: { nextPass } } = useAnalyzer()
+  const { state: { terminals, log, topEntry, globalProduction,action }, actions: { nextPass } } = useAnalyzer()
 
   let formatedTable = []
   let table = []
@@ -113,6 +113,16 @@ const Information = (props) =>{
                 </tr>
                 )
               )}
+              <tr>
+                <td className='text-center'>Read log</td>
+                <td colspan="4">
+                {log}
+                </td>
+                <td className='d-flex justify-content-center'>
+
+                  <Button className="btn btn-warning" onClick={nextPass}>Next</Button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>

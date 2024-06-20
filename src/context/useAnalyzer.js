@@ -61,7 +61,7 @@ function initSentenceFunc(){
     return sentence;
 }
 
-export function nextPass({ entry, sentence, pile, iteration, end, resolver }) {
+export function nextPass({ entry, sentence, pile, iteration, end, resolver,log }) {
     if (sentence.length>0){
          if(end){
             resolver = []
@@ -69,6 +69,7 @@ export function nextPass({ entry, sentence, pile, iteration, end, resolver }) {
             pile = "$S";
             entry = "";
             end = false;
+            log = ''
         }
         if(!entry){
             entry = sentence + "$";
@@ -99,8 +100,10 @@ export function nextPass({ entry, sentence, pile, iteration, end, resolver }) {
                 action = "Error in " + iteration + " iteractions!";
             }
         } else if (charPile && charPile === entry[0]){
-            action = "Lê '" + entry[0] + "'";
+            action = "Read '" + entry[0] + "'";
+            log+=entry[0]
             entry = entry.substr(1);
+
         } else {
             end = true;
             action = "Error in " + iteration + " iteractions!";
@@ -109,9 +112,9 @@ export function nextPass({ entry, sentence, pile, iteration, end, resolver }) {
 
         resolver.push([pileTable, entryTable, action])
 
-        return { entry, sentence, pile, iteration, end, resolver, topEntry: entryTable[0] ,action }
+        return { entry, sentence, pile, iteration, end, resolver, topEntry: entryTable[0] ,action,log }
     }
-    return { entry, sentence, pile, iteration, end: true, resolver, };
+    return { entry, sentence, pile, iteration, end: true, resolver, log };
 }
 
 
@@ -127,6 +130,7 @@ export const useAnalyzer = create((set) => ({
     resolver: [],
     action: '',
     topEntry: '',
+    log: ''
   },
   actions: {
     initSentenceSuccess: () => set((state)=>{
@@ -143,6 +147,7 @@ export const useAnalyzer = create((set) => ({
             end : false,
             action: '',
             topEntry: initSentenceValue[0], 
+            log: ''
         }
       };
     }),
@@ -159,7 +164,8 @@ export const useAnalyzer = create((set) => ({
             entry : "",
             end : false,
             action: '',
-            topEntry: initSentenceError[0], 
+            topEntry: initSentenceError[0],
+            log: ''
         }
       };
     }),
@@ -186,6 +192,8 @@ export const useAnalyzer = create((set) => ({
             end : false,
             action: "",
             topEntry: sentenceInput[0], 
+            log: ''
+
         }
   }})
   },
