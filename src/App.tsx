@@ -32,9 +32,9 @@ function App() {
             </div>
 
 
-            <Button className="btn btn-warning" onClick={nextPass}>Next</Button>
-            <Button className="btn btn-success" onClick={iterateNextPass}>Resolver</Button>
-            <Button className="btn btn-dark" onClick={() => setModalShow(true)}>Table</Button>
+            <Button className="btn btn-warning" style={{ width: 90 }} onClick={nextPass}>Next</Button>
+            <Button className="btn btn-success" style={{ width: 90 }} onClick={iterateNextPass}>Resolver</Button>
+            <Button className="btn btn-dark" style={{ width: 90 }} onClick={() => setModalShow(true)}>Table</Button>
 
             <Parser show={modalShow} onHide={() => setModalShow(false)} />
           </div>

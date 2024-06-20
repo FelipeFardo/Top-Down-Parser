@@ -5,10 +5,23 @@ import { Button } from 'react-bootstrap';
 
 
 const Information = (props) =>{
-  const { state: { terminals, log, topEntry, globalProduction,action }, actions: { nextPass } } = useAnalyzer()
+  const { state: { terminals, resolver, log, topEntry, globalProduction,action }, actions: { nextPass,iterateNextPass } } = useAnalyzer()
 
   let formatedTable = []
   let table = []
+
+  const read = log[log.length-1]
+  let pile = resolver.length> 0 ? resolver[resolver.length-1][0].split('').reverse() : '$S'.split('').reverse()
+  let entry = resolver.length> 0 ? resolver[resolver.length-1][1].split(''): '$'.split('')
+
+
+  const readLog =  resolver.length> 0 ? resolver[resolver.length-1][2].includes('Read') : ''
+
+  if (read === pile[0] && read === entry[0]){
+      pile= pile.slice(1)
+      entry=  entry.slice(1)
+  }
+
   const formatTable = () => {
     globalProduction.forEach(item => {
     formatedTable.push({
@@ -56,7 +69,7 @@ const Information = (props) =>{
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          Information
+        Table of Parsing
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className='px-5'>
@@ -85,16 +98,21 @@ const Information = (props) =>{
         </div>
 
         <div className='d-flex flex-column justify-content-center align-items-center mt-4'>
-          <h5>Table of Parsing</h5>
           <table className="table table-bordered table-striped">
             <thead className="sticky-top">
               <tr>
+                <th className='text-center'>Pile</th>
                 <th></th>
                 {terminals.map((terminal)=>
                 <th className='text-center' key={terminal}>{terminal}</th>)}
               </tr>
            </thead>
             <tbody>
+              <tr className=''>
+                <td rowSpan={7} className='text-center' style={{verticalAlign: 'bottom'}}>
+                    {pile.map((char, charIndex)=> <span key={charIndex}> {char} <br/></span >)}
+                </td>
+                </tr>
               {table.map((nonTerminals)=> (
                 <tr key={nonTerminals[0]}>
                  {nonTerminals.map((nonTerminal, nonTerminalIndex)=>(
@@ -114,13 +132,23 @@ const Information = (props) =>{
                 )
               )}
               <tr>
-                <td className='text-center'>Read log</td>
-                <td colspan="4">
-                {log}
+                <td className={`text-center justify-content-center py-3 ${readLog?'bg-success' : ''}`}>Read log</td>
+                <td  className='text-left justify-content-center py-3' colSpan="4">
+                  {log}
                 </td>
-                <td className='d-flex justify-content-center'>
-
-                  <Button className="btn btn-warning" onClick={nextPass}>Next</Button>
+                <td className='d-flex justify-content-center '>
+                  <Button style={{width:90}} className="btn btn-warning" onClick={nextPass}>Next</Button>
+                </td>
+              </tr>
+              <tr  className='p-3'>
+                <td className='text-center py-3'>Entry</td>
+                <td  className='text-left  justify-content-center py-3' colSpan="4">
+                  {entry}
+                </td>
+                <td className='d-flex justify-content-center py-3'>
+                  <span>
+                   <Button style={{width:90}} className="btn btn-success" onClick={iterateNextPass}>Resolver</Button>
+                  </span>
                 </td>
               </tr>
             </tbody>
