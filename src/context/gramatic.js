@@ -12,7 +12,7 @@ export const gramatica = [
       {
         nonTerminal: "S",
         initial: ["b","c"],
-        production: "Ab"
+        production: "AB"
       },
       {
         nonTerminal: "S",
